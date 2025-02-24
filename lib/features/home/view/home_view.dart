@@ -1,6 +1,7 @@
 import 'package:chat_app/core/widgets/widgets.dart';
 import 'package:chat_app/features/home/domain/data_cubit/data_cubit.dart';
 import 'package:chat_app/features/message/view/message_view.dart';
+import 'package:chat_app/features/settings/view/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,49 +19,72 @@ class HomeView extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(elevation: 2),
+            appBar: AppBar(
+              elevation: 2,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SettingsView()),
+                      );
+                    },
+                    icon: Icon(Icons.settings, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ListView.builder(
-                itemCount: HomeCubit.get(context).usersData.length,
-                itemBuilder:
-                    (context, index) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (c) => MessageView(
-                                    receiver:
-                                        HomeCubit.get(
-                                          context,
-                                        ).usersData[index]['uid'],
-                                  ),
-                            ),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.black),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: defaultText(
-                              text:
-                                  HomeCubit.get(
+              child:
+                  state is! LoadingGetAllUsersDataState
+                      ? ListView.builder(
+                        itemCount: HomeCubit.get(context).usersData.length,
+                        itemBuilder:
+                            (context, index) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
                                     context,
-                                  ).usersData[index]['name'],
-                              fontSize: 17,
-                              textAlign: TextAlign.start,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (c) => MessageView(
+                                            name:
+                                                HomeCubit.get(
+                                                  context,
+                                                ).usersData[index]['name'],
+                                            receiver:
+                                                HomeCubit.get(
+                                                  context,
+                                                ).usersData[index]['uid'],
+                                          ),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    border: Border.all(color: Colors.black),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: defaultText(
+                                      text:
+                                          HomeCubit.get(
+                                            context,
+                                          ).usersData[index]['name'],
+                                      fontSize: 17,
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-              ),
+                      )
+                      : Center(child: CircularProgressIndicator()),
             ),
           );
         },

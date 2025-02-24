@@ -24,55 +24,52 @@ class MessageCubit extends Cubit<MessageState> {
     // Save message for sender
     await messageRepository
         .sendMessageRepositoryFunction(
-          message: message,
-          date: date,
-          receiver: receiver,
-          sender: sender,
-        )
+      message: message,
+      date: date,
+      receiver: receiver,
+      sender: sender,
+    )
         .then((value) async {
-          // Save message for receiver
+      // Save message for receiver
 
-          messageRepository
-              .sendMessageRepositoryFunction(
-                message: message,
-                date: date,
-                receiver: sender,
-                sender: receiver,
-              )
-              .then((value) {
-                emit(SuccessfullySendingMessageState());
-              })
-              .catchError((error) {
-                emit(ErrorSendingMessageState(error.toString()));
-              });
-        })
+      messageRepository
+          .sendMessageRepositoryFunction(
+        message: message,
+        date: date,
+        receiver: sender,
+        sender: receiver,
+      )
+          .then((value) {
+        emit(SuccessfullySendingMessageState());
+      })
+          .catchError((error) {
+        emit(ErrorSendingMessageState(error.toString()));
+      });
+    })
         .catchError((error) {
-          emit(ErrorSendingMessageState(error.toString()));
-        });
+      emit(ErrorSendingMessageState(error.toString()));
+    });
   }
 
   List messages = [];
 
-  Stream getAllMessagesCubitFunction({
+  Future getAllMessagesCubitFunction({
     required String receiver,
     required String sender,
-  }) async* {
+  }) async{
     messages.clear();
-    emit(LoadingReceivingMessageState());
-    await messageRepository
+     messageRepository
         .getAllMessagesRepositoryFunction(receiver: receiver, sender: sender)
         .listen((value) {
-          value.docs.forEach((element) {
-            messageModel = MessageModel.fromJson(element.data());
-            messages.add(messageModel!.toMap());
-            print("Message in for ---$messages") ;
+          messages = [];
+      value.docs.forEach((element) {
+        messageModel = MessageModel.fromJson(element.data());
+        messages.add(messageModel!.toMap());
+        print("Message in for ---$messages") ;
 
-          });
-          print("Message out for ---$messages") ;
-          emit(SuccessfullyReceivingMessageState());
-        })
-        .asFuture((error) {
-          emit(ErrorReceivingMessageState(error.toString()));
-        });
+      });
+      print("Message out for ---$messages") ;
+      emit(SuccessfullyReceivingMessageState());
+    });
   }
 }

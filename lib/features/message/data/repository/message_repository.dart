@@ -28,12 +28,12 @@ class MessageRepository {
   Stream getAllMessagesRepositoryFunction({
     required String receiver,
     required String sender,
-  }) async* {
-     await FirebaseFirestore.instance
+  })  {
+    return  FirebaseFirestore.instance
         .collection("Users")
         .doc(sender)
         .collection("Messages")
         .doc(receiver).collection("Chats").orderBy("date")
-        .get();
+        .snapshots();
   }
 }

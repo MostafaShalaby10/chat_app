@@ -77,18 +77,6 @@ class LoginView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: defaultText(
-                          text: "Reset Password",
-                          fontSize: 14,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-
                     state is! LoadingLoginState
                         ? SizedBox(
                           width: double.infinity,

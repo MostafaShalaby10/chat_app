@@ -28,6 +28,7 @@ Widget defaultTextFormField({
   required Icon? prefixIcon,
 }) {
   return TextFormField(
+    autofocus: true,
     obscureText: obscureText,
     controller: controller,
     validator: (value) {
@@ -69,4 +70,29 @@ Widget defaultButton({
     onPressed: onPressed,
     child: defaultText(text: text, fontSize: fontSize),
   );
+}
+Widget customContainer({required String text , Color? color}){
+  return Container(
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: color ??Colors.grey[400],
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 15.0,
+        vertical: 20,
+      ),
+      child: Row(
+        children: [
+          defaultText(
+            text: text,
+            fontSize: 20,
+          ),
+          Spacer(),
+          Icon(Icons.arrow_forward_ios_outlined),
+        ],
+      ),
+    ),
+  ) ;
 }

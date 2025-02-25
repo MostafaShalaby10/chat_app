@@ -43,6 +43,8 @@ dependencies:
   shared_preferences: ^2.5.2
   intl: ^0.20.2
   confirm_dialog: ^1.0.4
+  email_otp: ^3.0.2
+  pinput: ^5.0.1
 
 dev_dependencies:
   flutter_test:

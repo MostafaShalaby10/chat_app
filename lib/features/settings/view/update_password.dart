@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/widgets/widgets.dart';
+import '../../login/view/login_view.dart';
 
 class UpdatePassword extends StatelessWidget {
-  final bool isEmail;
 
-  const UpdatePassword({super.key, required this.isEmail});
+  const UpdatePassword({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     return BlocProvider(
       create: (context) => UpdateCubit(),
       child: BlocConsumer<UpdateCubit, UpdateState>(
         listener: (context, state) {
-          // TODO: implement listener
-        },
+          if (state is SuccessfullyUpdatePasswordState) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LoginView()),
+              (route) => false,
+            );
+          }
+          },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(),
@@ -26,18 +32,9 @@ class UpdatePassword extends StatelessWidget {
               child: Column(
                 spacing: 20,
                 children: [
-                  if (isEmail)
-                    defaultTextFormField(
-                      hintText: "Enter the new email",
-                      controller: controller,
-                      keyboardType: TextInputType.emailAddress,
-                      obscureText: false,
-                      prefixIcon: Icon(Icons.email),
-                    ),
-                  if (!isEmail)
                     defaultTextFormField(
                       hintText: "Enter the password",
-                      controller: controller,
+                      controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: UpdateCubit.get(context).isPassword,
                       prefixIcon: Icon(Icons.lock_outline),
@@ -52,21 +49,16 @@ class UpdatePassword extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   SizedBox(
                     width: double.infinity,
                     child: defaultButton(
                       text: "Update",
                       onPressed: () {
-                        if (isEmail) {
-                          UpdateCubit.get(
-                            context,
-                          ).updateEmail(email: controller.text);
-                        } else {
-                          UpdateCubit.get(
-                            context,
-                          ).updatePassword(password: controller.text);
-                        }
+                    if(passwordController.text.length>5){
+                      UpdateCubit.get(
+                        context,
+                      ).updatePassword(password: passwordController.text);
+                    }
                       },
                       color: Colors.lightBlue,
                     ),

@@ -1,5 +1,6 @@
 import 'package:chat_app/features/signup/data/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupRepository {
@@ -25,7 +26,8 @@ class SignupRepository {
     userModel = UserModel(name: name, email: email, phone: phone, uid: uId);
     await  FirebaseFirestore.instance
         .collection('Users')
-        .doc(uId)
+        .doc(userModel.uid)
         .set(userModel.toMap());
   }
+
 }

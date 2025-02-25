@@ -1,8 +1,12 @@
+import 'package:chat_app/core/constants/constants.dart';
+import 'package:chat_app/core/shared_preferences/shared_preferences.dart';
+import 'package:chat_app/features/signup/data/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../core/widgets/widgets.dart';
+import '../../verification/view/verification_view.dart';
 import '../domain/signup_cubit/signup_cubit.dart';
 
 class SignupView extends StatelessWidget {
@@ -127,19 +131,29 @@ class SignupView extends StatelessWidget {
                                 if (passwordController.text.length > 5) {
                                   if (passwordController.text ==
                                       confirmPasswordController.text) {
-                                    SignupCubit.get(
+                                    Constants.userData = {
+                                      "name": nameController.text,
+                                      "email": emailController.text,
+                                      "phone": phoneController.text,
+                                      "password" : passwordController.text
+                                    };
+                                    Navigator.pushAndRemoveUntil(
                                       context,
-                                    ).createUserAccountCubit(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      name: nameController.text,
-                                      phone: phoneController.text,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => VerificationView(
+                                              email: emailController.text, newAccount: true,
+                                            ),
+                                      ),
+                                      (route) => false,
                                     );
-                                  }else{
+                                  } else {
                                     print("Password must be same");
                                   }
-                                }else{
-                                  print("Password must be more than 5 characters");
+                                } else {
+                                  print(
+                                    "Password must be more than 5 characters",
+                                  );
                                 }
                               }
                             },

@@ -3,6 +3,7 @@ import 'package:chat_app/features/login/view/login_view.dart';
 import 'package:chat_app/features/settings/domain/settings_cubit/settings_cubit.dart';
 import 'package:chat_app/features/settings/view/update_data.dart';
 import 'package:chat_app/features/settings/view/update_password.dart';
+import 'package:chat_app/features/verification/view/verification_view.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,13 +26,7 @@ class SettingsView extends StatelessWidget {
               (route) => false,
             );
           }
-          if(state is SuccessfullyDeleteAccountState){
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => LoginView()),
-              (route) => false,
-            );
-          }
+
         },
         builder: (context, state) {
           return Scaffold(
@@ -121,29 +116,23 @@ class SettingsView extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
                                     builder:
-                                        (context) =>
-                                            UpdatePassword(isEmail: false),
+                                        (c) => VerificationView(
+                                          email: SettingsCubit.get(
+                                            context,
+                                          ).userModelMap["email"],
+                                          newAccount: false,
+                                        ),
                                   ),
+                                  (route) => false,
                                 );
                               },
-                              child: customContainer(text: "Update Password"),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) =>
-                                            UpdatePassword(isEmail: true),
-                                  ),
-                                );
-                              },
-                              child: customContainer(text: "Update Email"),
+                              child: customContainer(
+                                text: "Change Password",
+                              ),
                             ),
                             Spacer(),
                             InkWell(

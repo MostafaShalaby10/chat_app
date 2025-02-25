@@ -12,20 +12,6 @@ class UpdateCubit extends Cubit<UpdateState> {
 
   SettingsRepository settingsRepository = SettingsRepository();
 
-
-
-  Future updateEmail({required String email}) async {
-    emit(LoadingUpdateEmailState());
-    await settingsRepository
-        .updateEmail(email: email)
-        .then((value) {
-      emit(SuccessfullyUpdateEmailState());
-    })
-        .catchError((error) {
-      emit(ErrorUpdateEmailState(error.toString()));
-    });
-  }
-
   Future updatePassword({required String password}) async {
     emit(LoadingUpdatePasswordState());
     await settingsRepository

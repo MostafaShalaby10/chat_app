@@ -56,12 +56,14 @@ Widget defaultTextFormField({
 Widget defaultButton({
   required String text,
   int fontSize = 18,
-  required Function() onPressed,
+   Function()? onPressed,
   required Color color,
 }) {
   return MaterialButton(
     height: 40.h,
     color: color,
+    disabledColor: Colors.grey[400],
+    disabledTextColor: Colors.white,
     shape: OutlineInputBorder(
 
       borderRadius: BorderRadius.circular(15),

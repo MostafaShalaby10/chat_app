@@ -21,9 +21,6 @@ class SettingsRepository {
         .update({"name": name, "phone": phone});
   }
 
-  Future updateEmail({required String email}) async {
-    return FirebaseAuth.instance.currentUser!.verifyBeforeUpdateEmail(email);
-  }
 
   Future updatePassword({required String password}) async {
     return FirebaseAuth.instance.currentUser!.updatePassword(password);

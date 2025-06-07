@@ -1,16 +1,17 @@
-# chat_app
+# Chat App
 
-A new Flutter project.
+A real-time chat application built with **Flutter** and **Firebase**, enabling users to send and receive messages instantly and verify their accounts using **Email OTP**.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- 💬 **Real-Time Messaging** – Instant communication using Firebase Firestore.
+- 🔒 **Account Verification** – Email-based OTP authentication.
+- 📲 **Responsive UI** – Adaptive design for various screen sizes.
+- 🔄 **State Management** – Efficient handling using Flutter BLoC.
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies Used
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Firebase** – Authentication and real-time database.
+- **Flutter BLoC** – State management.
+- **Email OTP** – Secure account verification.
+- **Flutter ScreenUtil** – Responsive design adaptation.
